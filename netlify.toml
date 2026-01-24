@@ -1,0 +1,23 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[build.environment]
+  # Ensures the build uses the production node version
+  NODE_VERSION = "20" 
+  # This helps Next.js optimize the build for Netlify
+  NEXT_USE_NETLIFY_EDGE = "true"
+
+[[redirects]]
+  from = "/api/preview"
+  to = "/api/preview"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
