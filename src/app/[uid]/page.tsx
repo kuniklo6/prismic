@@ -14,7 +14,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
     const { uid } = await params;
     const client = createClient();
-    const page = await client.getByUID("page", uid).catch(() => notFound());
+    const page = await client.getByUID("home", uid).catch(() => notFound());
 
     return {
         title: page.data.meta_title,
@@ -34,7 +34,7 @@ export default async function Page({
     const client = createClient();
 
     // Fetching the document of type 'page' with the matching UID
-    const page = await client.getByUID("page", uid).catch(() => notFound());
+    const page = await client.getByUID("home", uid).catch(() => notFound());
 
     return (
         <main>

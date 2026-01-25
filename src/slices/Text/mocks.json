@@ -4,15 +4,9 @@
 		"variation": "default",
 		"primary": {
 			"text": {
-				"__TYPE__": "StructuredTextContent",
-				"value": [
-					{
-						"type": "paragraph",
-						"content": {
-							"text": "Tempor laboris in mollit cupidatat anim eiusmod anim."
-						}
-					}
-				]
+				"__TYPE__": "FieldContent",
+				"value": "scene",
+				"type": "Text"
 			}
 		},
 		"items": []

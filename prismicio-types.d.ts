@@ -69,39 +69,66 @@ type ContentRelationshipFieldWithData<
   >;
 }[Exclude<TCustomType[number], string>["id"]];
 
-type HomepageDocumentDataSlicesSlice = TextSlice;
+type HomeDocumentDataSlicesSlice = TextSlice;
 
 /**
- * Content for Homepage documents
+ * Content for Home documents
  */
-interface HomepageDocumentData {
+interface HomeDocumentData {
   /**
-   * Slice Zone field in *Homepage*
+   * Slice Zone field in *Home*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
-   * - **API ID Path**: homepage.slices[]
+   * - **API ID Path**: home.slices[]
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  slices: prismic.SliceZone<HomepageDocumentDataSlicesSlice>;
+  slices: prismic.SliceZone<HomeDocumentDataSlicesSlice>; /**
+   * Meta Title field in *Home*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: home.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  meta_title: prismic.KeyTextField;
+
+  /**
+   * Meta Description field in *Home*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: home.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  meta_description: prismic.KeyTextField;
+
+  /**
+   * Meta Image field in *Home*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: home.meta_image
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  meta_image: prismic.ImageField<never>;
 }
 
 /**
- * Homepage document from Prismic
+ * Home document from Prismic
  *
- * - **API ID**: `homepage`
- * - **Repeatable**: `false`
+ * - **API ID**: `home`
+ * - **Repeatable**: `true`
  * - **Documentation**: https://prismic.io/docs/content-modeling
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type HomepageDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<
-    Simplify<HomepageDocumentData>,
-    "homepage",
-    Lang
-  >;
+export type HomeDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<Simplify<HomeDocumentData>, "home", Lang>;
 
 /**
  * Item in *Navigation → menu_items*
@@ -160,7 +187,7 @@ export type NavigationDocument<Lang extends string = string> =
     Lang
   >;
 
-export type AllDocumentTypes = HomepageDocument | NavigationDocument;
+export type AllDocumentTypes = HomeDocument | NavigationDocument;
 
 /**
  * Primary content in *Text → Default → Primary*
@@ -169,12 +196,12 @@ export interface TextSliceDefaultPrimary {
   /**
    * text field in *Text → Default → Primary*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Text
    * - **Placeholder**: *None*
    * - **API ID Path**: text.default.primary.text
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/fields/text
    */
-  text: prismic.RichTextField;
+  text: prismic.KeyTextField;
 }
 
 /**
@@ -225,9 +252,9 @@ declare module "@prismicio/client" {
 
   namespace Content {
     export type {
-      HomepageDocument,
-      HomepageDocumentData,
-      HomepageDocumentDataSlicesSlice,
+      HomeDocument,
+      HomeDocumentData,
+      HomeDocumentDataSlicesSlice,
       NavigationDocument,
       NavigationDocumentData,
       NavigationDocumentDataMenuItemsItem,
