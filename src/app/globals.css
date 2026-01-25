@@ -1,8 +1,12 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  /* Define your brand color variables here */
+  --color-brand: #3b82f6;
+  --color-brand-dark: #2563eb;
 }
 
 @theme inline {
@@ -10,6 +14,15 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  /* This makes 'text-brand' and 'prose-brand' available */
+  --color-brand: var(--color-brand);
+  /* These variables explicitly tell the typography plugin what to do */
+  --typography-links: var(--color-brand);
+  --typography-bold: var(--color-brand);
+  --typography-counters: var(--color-brand);
+  /* Bullet numbers */
+  --typography-bullets: var(--color-brand);
+  /* Bullet dots */
 }
 
 @media (prefers-color-scheme: dark) {

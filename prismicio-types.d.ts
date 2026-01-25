@@ -196,12 +196,12 @@ export interface TextSliceDefaultPrimary {
   /**
    * text field in *Text → Default → Primary*
    *
-   * - **Field Type**: Text
+   * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: text.default.primary.text
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  text: prismic.KeyTextField;
+  text: prismic.RichTextField;
 }
 
 /**
