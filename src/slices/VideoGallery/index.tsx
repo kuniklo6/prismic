@@ -21,7 +21,7 @@ const VideoGallery: React.FC<VideoGalleryProps> = ({ slice }) => {
 
       {/* Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-        {slice.items.map((item, index) => (
+        {slice.primary.items.map((item, index) => (
           <div
             key={index}
             className="group flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white transition-all hover:shadow-xl"
