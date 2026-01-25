@@ -15,12 +15,18 @@ export function NavigationList({ nav }: { nav: any }) {
 
                     // 1. Check if the current slice is "Active"
                     // For single links, we check if the pathname matches the link UID
+                    const isVideosTop = slice.primary.link?.type === "videos";
                     const isLinkActive = slice.slice_type === "menu_link" &&
-                        (pathname === `/${slice.primary.link.uid}` || (pathname === "/" && slice.primary.link.uid === "home"));
+                        (isVideosTop ? pathname === "/videos" : (pathname === `/${slice.primary.link.uid}` || (pathname === "/" && slice.primary.link.uid === "home")));
 
                     // For dropdowns, we check if any of the sub-links match the current pathname
                     const isDropdownActive = slice.slice_type === "dropdown" &&
-                        slice.primary.sub_label?.some((item: any) => pathname === `/${item.sub_link.uid}`);
+                        slice.primary.sub_label?.some((item: any) => {
+                            if (item.sub_link.type === "videos") {
+                                return pathname === "/videos";
+                            }
+                            return pathname === `/${item.sub_link.uid}`;
+                        });
 
                     // CASE 1: Single Link
                     if (slice.slice_type === "menu_link") {
@@ -61,7 +67,13 @@ export function NavigationList({ nav }: { nav: any }) {
                                     }`}>
                                     <ul className="flex flex-col gap-1">
                                         {subLinks.map((item: any, i: number) => {
-                                            const isActiveSub = pathname === `/${item.sub_link.uid}`;
+                                            // Handling active state for both Single Types and UID-based pages
+                                            const isVideos = item.sub_link.type === "videos";
+                                            const isActiveSub = isVideos ? pathname === "/videos" : (item.sub_link.uid && pathname === `/${item.sub_link.uid}`);
+
+                                            // Fallback for link text: Use the text from the link, or a manual label if you add one later
+                                            const linkLabel = item.sub_link.text || item.sub_link.url || "Link";
+
                                             return (
                                                 <li key={i}>
                                                     <PrismicNextLink
@@ -69,7 +81,7 @@ export function NavigationList({ nav }: { nav: any }) {
                                                         className={`block px-4 py-2 text-sm rounded-lg transition-colors ${isActiveSub ? "bg-blue-50 text-blue-600 font-semibold" : "text-slate-600 hover:bg-slate-50 hover:text-blue-600"
                                                             }`}
                                                     >
-                                                        {item.sub_link?.text}
+                                                        {linkLabel}
                                                     </PrismicNextLink>
                                                 </li>
                                             );
