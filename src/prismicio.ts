@@ -16,12 +16,24 @@ export const repositoryName =
 const routes: prismic.ClientConfig["routes"] = [
   {
     type: "home",
-    path: "/:uid", // This handles /home, /about, etc.
+    uid: "home",
+    path: "/",
   },
   {
     type: "home",
-    uid: "home", // This specifically tells Prismic that the document with UID 'home' lives at '/'
-    path: "/",
+    path: "/:uid",
+  },
+  {
+    type: "page",
+    path: "/:uid",
+  },
+  {
+    type: "videos",
+    path: "/videos",
+  },
+  {
+    type: "navigation",
+    path: "/", // Navigation usually doesn't need a path, but listing it avoids errors
   },
 ];
 

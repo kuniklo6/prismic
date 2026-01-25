@@ -6,4 +6,5 @@ export const components = {
   dropdown: dynamic(() => import("./Dropdown")),
   menu_link: dynamic(() => import("./MenuLink")),
   text: dynamic(() => import("./Text")),
+  video_gallery: dynamic(() => import("./VideoGallery")),
 };

@@ -194,7 +194,45 @@ interface PageDocumentData {
 export type PageDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
-export type AllDocumentTypes = HomeDocument | NavigationDocument | PageDocument;
+type VideosDocumentDataSlicesSlice = VideoGallerySlice;
+
+/**
+ * Content for Videos documents
+ */
+interface VideosDocumentData {
+  /**
+   * Slice Zone field in *Videos*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: videos.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/slices
+   */
+  slices: prismic.SliceZone<VideosDocumentDataSlicesSlice>;
+}
+
+/**
+ * Videos document from Prismic
+ *
+ * - **API ID**: `videos`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type VideosDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<VideosDocumentData>,
+    "videos",
+    Lang
+  >;
+
+export type AllDocumentTypes =
+  | HomeDocument
+  | NavigationDocument
+  | PageDocument
+  | VideosDocument;
 
 /**
  * Item in *Dropdown → Default → Primary → sub_label*
@@ -371,6 +409,96 @@ type TextSliceVariation = TextSliceDefault;
  */
 export type TextSlice = prismic.SharedSlice<"text", TextSliceVariation>;
 
+/**
+ * Item in *VideoGallery → Default → Primary → items*
+ */
+export interface VideoGallerySliceDefaultPrimaryItemsItem {
+  /**
+   * video_url field in *VideoGallery → Default → Primary → items*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: video_gallery.default.primary.items[].video_url
+   * - **Documentation**: https://prismic.io/docs/fields/embed
+   */
+  video_url: prismic.EmbedField;
+
+  /**
+   * video_title field in *VideoGallery → Default → Primary → items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: video_gallery.default.primary.items[].video_title
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  video_title: prismic.KeyTextField;
+}
+
+/**
+ * Primary content in *VideoGallery → Default → Primary*
+ */
+export interface VideoGallerySliceDefaultPrimary {
+  /**
+   * title field in *VideoGallery → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: video_gallery.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * description field in *VideoGallery → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: video_gallery.default.primary.description
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  description: prismic.RichTextField;
+
+  /**
+   * items field in *VideoGallery → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: video_gallery.default.primary.items[]
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  items: prismic.GroupField<Simplify<VideoGallerySliceDefaultPrimaryItemsItem>>;
+}
+
+/**
+ * Default variation for VideoGallery Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type VideoGallerySliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<VideoGallerySliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *VideoGallery*
+ */
+type VideoGallerySliceVariation = VideoGallerySliceDefault;
+
+/**
+ * VideoGallery Shared Slice
+ *
+ * - **API ID**: `video_gallery`
+ * - **Description**: VideoGallery
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type VideoGallerySlice = prismic.SharedSlice<
+  "video_gallery",
+  VideoGallerySliceVariation
+>;
+
 declare module "@prismicio/client" {
   interface CreateClient {
     (
@@ -401,6 +529,9 @@ declare module "@prismicio/client" {
       PageDocument,
       PageDocumentData,
       PageDocumentDataSlicesSlice,
+      VideosDocument,
+      VideosDocumentData,
+      VideosDocumentDataSlicesSlice,
       AllDocumentTypes,
       DropdownSlice,
       DropdownSliceDefaultPrimarySubLabelItem,
@@ -415,6 +546,11 @@ declare module "@prismicio/client" {
       TextSliceDefaultPrimary,
       TextSliceVariation,
       TextSliceDefault,
+      VideoGallerySlice,
+      VideoGallerySliceDefaultPrimaryItemsItem,
+      VideoGallerySliceDefaultPrimary,
+      VideoGallerySliceVariation,
+      VideoGallerySliceDefault,
     };
   }
 }
