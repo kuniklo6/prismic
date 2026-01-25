@@ -1,5 +1,5 @@
-import { Content } from "@prismicio/client";
-import { SliceComponentProps, PrismicRichText } from "@prismicio/react";
+import { Content, isFilled } from "@prismicio/client";
+import { SliceComponentProps, PrismicRichText, PrismicText } from "@prismicio/react";
 import React from "react"; // Ensure React is imported
 
 export type VideoGalleryProps = SliceComponentProps<Content.VideoGallerySlice>;
@@ -35,10 +35,10 @@ const VideoGallery: React.FC<VideoGalleryProps> = ({ slice }) => {
             </div>
 
             {/* Caption Area */}
-            {item.video_title && (
+            {isFilled.richText(item.text) && (
               <div className="p-6">
                 <h3 className="text-lg font-semibold text-slate-800 group-hover:text-blue-600 transition-colors">
-                  {item.video_title}
+                  <PrismicText field={item.text} />
                 </h3>
               </div>
             )}

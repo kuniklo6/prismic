@@ -54,11 +54,17 @@
 								}
 							],
 							[
-								"video_title",
+								"text",
 								{
-									"__TYPE__": "FieldContent",
-									"value": "printed",
-									"type": "Text"
+									"__TYPE__": "StructuredTextContent",
+									"value": [
+										{
+											"type": "paragraph",
+											"content": {
+												"text": "Nulla quis anim aute sint et aliquip esse dolor dolor et deserunt eiusmod mollit. Labore enim aute culpa non sit elit adipisicing eu amet laboris. Aliqua veniam minim ipsum consectetur tempor in mollit nisi irure."
+											}
+										}
+									]
 								}
 							]
 						]
