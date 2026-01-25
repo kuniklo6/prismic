@@ -1,6 +1,5 @@
-import { FC } from "react";
 import { Content } from "@prismicio/client";
-import { SliceComponentProps } from "@prismicio/react";
+import { SliceComponentProps, PrismicRichText } from "@prismicio/react";
 
 /**
  * Props for `Text`.
@@ -10,21 +9,14 @@ export type TextProps = SliceComponentProps<Content.TextSlice>;
 /**
  * Component for "Text" Slices.
  */
-const Text: FC<TextProps> = ({ slice }) => {
+const Text = ({ slice }: TextProps): JSX.Element => {
   return (
-    <section
-      data-slice-type={slice.slice_type}
-      data-slice-variation={slice.variation}
-    >
-      Placeholder component for text (variation: {slice.variation}) slices.
-      <br />
-      <strong>You can edit this slice directly in your code editor.</strong>
-      {/**
-       * 💡 Use the Prismic MCP server with your code editor
-       * 📚 Docs: https://prismic.io/docs/ai#code-with-prismics-mcp-server
-       */}
+    <section className="px-4 py-12 flex flex-col items-center">
+      <div className="w-full max-w-3xl">
+        {/* ✅ Use a standard tag for Key Text strings */}
+        <h2 className="text-3xl font-bold">{slice.primary.text}</h2>
+      </div>
     </section>
   );
 };
-
 export default Text;
