@@ -69,6 +69,63 @@ type ContentRelationshipFieldWithData<
   >;
 }[Exclude<TCustomType[number], string>["id"]];
 
+/**
+ * Item in *Navigation → menu_items*
+ */
+export interface NavigationDocumentDataMenuItemsItem {
+  /**
+   * label field in *Navigation → menu_items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: navigation.menu_items[].label
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  label: prismic.KeyTextField;
+
+  /**
+   * link field in *Navigation → menu_items*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: navigation.menu_items[].link
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+}
+
+/**
+ * Content for Navigation documents
+ */
+interface NavigationDocumentData {
+  /**
+   * menu_items field in *Navigation*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: navigation.menu_items[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  menu_items: prismic.GroupField<Simplify<NavigationDocumentDataMenuItemsItem>>;
+}
+
+/**
+ * Navigation document from Prismic
+ *
+ * - **API ID**: `navigation`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type NavigationDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<NavigationDocumentData>,
+    "navigation",
+    Lang
+  >;
+
 type PageDocumentDataSlicesSlice = HeroSlice;
 
 /**
@@ -130,7 +187,7 @@ interface PageDocumentData {
 export type PageDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
-export type AllDocumentTypes = PageDocument;
+export type AllDocumentTypes = NavigationDocument | PageDocument;
 
 /**
  * Primary content in *Hero → Default → Primary*
@@ -315,6 +372,9 @@ declare module "@prismicio/client" {
 
   namespace Content {
     export type {
+      NavigationDocument,
+      NavigationDocumentData,
+      NavigationDocumentDataMenuItemsItem,
       PageDocument,
       PageDocumentData,
       PageDocumentDataSlicesSlice,

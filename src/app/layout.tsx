@@ -29,6 +29,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Header />
         {children}
         {/* This enables the Prismic Edit Button and Live Previews */}
         <PrismicPreview repositoryName={repositoryName} />
