@@ -11,16 +11,18 @@ export const repositoryName =
 /**
  * A list of Route Resolver objects that define how a document's `url` field is resolved.
  */
+// src/prismicio.ts
+
 const routes: prismic.ClientConfig["routes"] = [
   {
-    type: "page",
-    path: "/:uid", // This matches your app/[uid]/page.tsx structure
-  },
-  {
-    type: "page",
-    uid: "home", // Optional: If you have a page with UID 'home', treat it as root
+    type: "homepage",
     path: "/",
   },
+  {
+    type: "navigation", // Even if it doesn't have a path, it helps to list it
+    path: "/",
+  },
+  // ❌ REMOVE or COMMENT OUT any { type: "page", ... } lines
 ];
 
 /**
