@@ -1,4 +1,3 @@
-import { notFound } from "next/navigation";
 import { SliceZone } from "@prismicio/react";
 import { createClient } from "@/prismicio";
 import { components } from "@/slices";
@@ -6,8 +5,8 @@ import { components } from "@/slices";
 export default async function IndexPage() {
   const client = createClient();
 
-  // This line looks specifically for the UID you just created
-  const page = await client.getSingle("home").catch(() => notFound());
+  // Fetch the specific document with the UID 'home' from your 'home' collection
+  const page = await client.getByUID("home", "home");
 
   return (
     <main>

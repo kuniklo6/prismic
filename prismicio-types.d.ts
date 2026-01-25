@@ -187,7 +187,37 @@ export type NavigationDocument<Lang extends string = string> =
     Lang
   >;
 
-export type AllDocumentTypes = HomeDocument | NavigationDocument;
+type PageDocumentDataSlicesSlice = TextSlice;
+
+/**
+ * Content for Page documents
+ */
+interface PageDocumentData {
+  /**
+   * Slice Zone field in *Page*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/slices
+   */
+  slices: prismic.SliceZone<PageDocumentDataSlicesSlice>;
+}
+
+/**
+ * Page document from Prismic
+ *
+ * - **API ID**: `page`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type PageDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
+
+export type AllDocumentTypes = HomeDocument | NavigationDocument | PageDocument;
 
 /**
  * Primary content in *Text → Default → Primary*
@@ -258,6 +288,9 @@ declare module "@prismicio/client" {
       NavigationDocument,
       NavigationDocumentData,
       NavigationDocumentDataMenuItemsItem,
+      PageDocument,
+      PageDocumentData,
+      PageDocumentDataSlicesSlice,
       AllDocumentTypes,
       TextSlice,
       TextSliceDefaultPrimary,
