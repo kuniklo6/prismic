@@ -37,9 +37,9 @@ const VideoGallery: React.FC<VideoGalleryProps> = ({ slice }) => {
             {/* Caption Area */}
             {isFilled.richText(item.text) && (
               <div className="p-6">
-                <h3 className="text-lg font-semibold text-slate-800 group-hover:text-blue-600 transition-colors">
-                  <PrismicText field={item.text} />
-                </h3>
+                <div className="text-lg font-semibold text-slate-800 group-hover:text-blue-600 transition-colors [&_a]:text-blue-600 [&_a:hover]:underline">
+                  <PrismicRichText field={item.text} />
+                </div>
               </div>
             )}
           </div>
