@@ -3,5 +3,7 @@
 import dynamic from "next/dynamic";
 
 export const components = {
+  dropdown: dynamic(() => import("./Dropdown")),
+  menu_link: dynamic(() => import("./MenuLink")),
   text: dynamic(() => import("./Text")),
 };

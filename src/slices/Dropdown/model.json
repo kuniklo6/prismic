@@ -1,0 +1,46 @@
+{
+  "id": "dropdown",
+  "type": "SharedSlice",
+  "name": "Dropdown",
+  "description": "Dropdown",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "label": {
+          "type": "Text",
+          "config": {
+            "label": "label",
+            "placeholder": ""
+          }
+        },
+        "sub_label": {
+          "type": "Group",
+          "config": {
+            "label": "sub_label",
+            "repeat": true,
+            "fields": {
+              "sub_link": {
+                "type": "Link",
+                "config": {
+                  "label": "sub_link",
+                  "placeholder": "",
+                  "select": null,
+                  "allowTargetBlank": true,
+                  "allowText": true,
+                  "repeat": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

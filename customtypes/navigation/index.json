@@ -6,29 +6,16 @@
   "status": true,
   "json": {
     "Main": {
-      "menu_items": {
-        "type": "Group",
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
         "config": {
-          "label": "",
-          "repeat": true,
-          "fields": {
-            "label": {
-              "type": "Text",
-              "config": {
-                "label": "",
-                "placeholder": ""
-              }
+          "choices": {
+            "dropdown": {
+              "type": "SharedSlice"
             },
-            "link": {
-              "type": "Link",
-              "config": {
-                "label": "",
-                "placeholder": "",
-                "select": null,
-                "allowTargetBlank": true,
-                "allowText": true,
-                "repeat": false
-              }
+            "menu_link": {
+              "type": "SharedSlice"
             }
           }
         }
