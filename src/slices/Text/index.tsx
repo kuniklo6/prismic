@@ -9,7 +9,7 @@ export type TextProps = SliceComponentProps<Content.TextSlice>;
 /**
  * Component for "Text" Slices.
  */
-const Text = ({ slice }: TextProps): JSX.Element => {
+const Text = ({ slice }: TextProps) => {
   return (
     <section className="px-4 py-12 flex flex-col items-center">
       <div className="w-full max-w-3xl">
