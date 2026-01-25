@@ -7,7 +7,7 @@ export default async function IndexPage() {
   const client = createClient();
 
   // This line looks specifically for the UID you just created
-  const page = await client.getSingle("homepage").catch(() => notFound());
+  const page = await client.getSingle("home").catch(() => notFound());
 
   return (
     <main>
