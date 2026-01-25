@@ -17,8 +17,11 @@ export async function generateMetadata(): Promise<Metadata> {
     const client = createClient();
     const page = await client.getSingle("videos").catch(() => notFound());
 
+    // Cast data to any to bypass temporary type mismatch in generated Prismic types
+    const data = page.data as any;
+
     return {
-        title: page.data.meta_title || "Videos",
-        description: page.data.meta_description,
+        title: data.meta_title || "Videos",
+        description: data.meta_description,
     };
 }
