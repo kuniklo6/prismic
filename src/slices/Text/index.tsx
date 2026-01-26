@@ -16,7 +16,7 @@ const components: JSXMapSerializer = {
 const Text = ({ slice }: TextProps) => {
   return (
     <section className="px-4 py-12 flex justify-center">
-      <div className="prose dark:prose-invert prose-strong:text-blue-500 max-w-none w-full max-w-3xl">
+      <div className="prose dark:prose-invert prose-headings:text-black prose-headings:font-bold prose-strong:text-black prose-strong:font-bold mx-auto max-w-3xl">
         {/* Pass the components map here */}
         <PrismicRichText field={slice.primary.text} components={components} />
       </div>

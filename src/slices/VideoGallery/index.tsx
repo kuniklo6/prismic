@@ -7,10 +7,10 @@ export type VideoGalleryProps = SliceComponentProps<Content.VideoGallerySlice>;
 // Using React.FC (Function Component) is the cleanest way to type this
 const VideoGallery: React.FC<VideoGalleryProps> = ({ slice }) => {
   return (
-    <section className="mx-auto max-w-6xl px-6 py-12">
+    <section className="mx-auto max-w-3xl px-6 py-12">
       {/* Header */}
       <div className="mb-10 text-center">
-        <h2 className="text-4xl font-bold text-slate-900 tracking-tight">
+        <h2 className="text-4xl text-black font-bold tracking-tight">
           {slice.primary.title}
         </h2>
         {/* Helper to handle Rich Text description */}
