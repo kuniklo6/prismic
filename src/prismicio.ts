@@ -32,6 +32,10 @@ const routes: prismic.ClientConfig["routes"] = [
     path: "/videos",
   },
   {
+    type: "devotional",
+    path: "/devotional",
+  },
+  {
     type: "navigation",
     path: "/", // Navigation usually doesn't need a path, but listing it avoids errors
   },

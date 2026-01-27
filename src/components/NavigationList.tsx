@@ -16,14 +16,22 @@ export function NavigationList({ nav }: { nav: any }) {
                     // 1. Check if the current slice is "Active"
                     // For single links, we check if the pathname matches the link UID
                     const isVideosTop = slice.primary.link?.type === "videos";
+                    const isDevotionalTop = slice.primary.link?.type === "devotional";
                     const isLinkActive = slice.slice_type === "menu_link" &&
-                        (isVideosTop ? pathname === "/videos" : (pathname === `/${slice.primary.link.uid}` || (pathname === "/" && slice.primary.link.uid === "home")));
+                        (
+                            isVideosTop ? pathname === "/videos" :
+                                isDevotionalTop ? pathname === "/devotional" :
+                                    (pathname === `/${slice.primary.link.uid}` || (pathname === "/" && slice.primary.link.uid === "home"))
+                        );
 
                     // For dropdowns, we check if any of the sub-links match the current pathname
                     const isDropdownActive = slice.slice_type === "dropdown" &&
                         slice.primary.sub_label?.some((item: any) => {
                             if (item.sub_link.type === "videos") {
                                 return pathname === "/videos";
+                            }
+                            if (item.sub_link.type === "devotional") {
+                                return pathname === "/devotional";
                             }
                             return pathname === `/${item.sub_link.uid}`;
                         });
@@ -69,7 +77,8 @@ export function NavigationList({ nav }: { nav: any }) {
                                         {subLinks.map((item: any, i: number) => {
                                             // Handling active state for both Single Types and UID-based pages
                                             const isVideos = item.sub_link.type === "videos";
-                                            const isActiveSub = isVideos ? pathname === "/videos" : (item.sub_link.uid && pathname === `/${item.sub_link.uid}`);
+                                            const isDevotional = item.sub_link.type === "devotional";
+                                            const isActiveSub = isVideos ? pathname === "/videos" : isDevotional ? pathname === "/devotional" : (item.sub_link.uid && pathname === `/${item.sub_link.uid}`);
 
                                             // Fallback for link text: Use the text from the link, or a manual label if you add one later
                                             const linkLabel = item.sub_link.text || item.sub_link.url || "Link";

@@ -6,10 +6,10 @@ type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
 type PickContentRelationshipFieldData<
   TRelationship extends
-  | prismic.CustomTypeModelFetchCustomTypeLevel1
-  | prismic.CustomTypeModelFetchCustomTypeLevel2
-  | prismic.CustomTypeModelFetchGroupLevel1
-  | prismic.CustomTypeModelFetchGroupLevel2,
+    | prismic.CustomTypeModelFetchCustomTypeLevel1
+    | prismic.CustomTypeModelFetchCustomTypeLevel2
+    | prismic.CustomTypeModelFetchGroupLevel1
+    | prismic.CustomTypeModelFetchGroupLevel2,
   TData extends Record<
     string,
     | prismic.AnyRegularField
@@ -37,10 +37,10 @@ type PickContentRelationshipFieldData<
     > as TGroup["id"]]: TData[TGroup["id"]] extends prismic.GroupField<
       infer TGroupData
     >
-    ? prismic.GroupField<
-      PickContentRelationshipFieldData<TGroup, TGroupData, TLang>
-    >
-    : never;
+      ? prismic.GroupField<
+          PickContentRelationshipFieldData<TGroup, TGroupData, TLang>
+        >
+      : never;
   } & // Other fields
   {
     [TFieldKey in Extract<
@@ -51,8 +51,8 @@ type PickContentRelationshipFieldData<
 
 type ContentRelationshipFieldWithData<
   TCustomType extends
-  | readonly (prismic.CustomTypeModelFetchCustomTypeLevel1 | string)[]
-  | readonly (prismic.CustomTypeModelFetchCustomTypeLevel2 | string)[],
+    | readonly (prismic.CustomTypeModelFetchCustomTypeLevel1 | string)[]
+    | readonly (prismic.CustomTypeModelFetchCustomTypeLevel2 | string)[],
   TLang extends string = string,
 > = {
   [ID in Exclude<
@@ -68,6 +68,40 @@ type ContentRelationshipFieldWithData<
     >
   >;
 }[Exclude<TCustomType[number], string>["id"]];
+
+type DevotionalDocumentDataSlicesSlice = TextSlice;
+
+/**
+ * Content for Devotional documents
+ */
+interface DevotionalDocumentData {
+  /**
+   * Slice Zone field in *Devotional*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: devotional.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/slices
+   */
+  slices: prismic.SliceZone<DevotionalDocumentDataSlicesSlice>;
+}
+
+/**
+ * Devotional document from Prismic
+ *
+ * - **API ID**: `devotional`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type DevotionalDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<DevotionalDocumentData>,
+    "devotional",
+    Lang
+  >;
 
 type HomeDocumentDataSlicesSlice = TextSlice;
 
@@ -260,6 +294,7 @@ export type VideosDocument<Lang extends string = string> =
   >;
 
 export type AllDocumentTypes =
+  | DevotionalDocument
   | HomeDocument
   | NavigationDocument
   | PageDocument
@@ -551,6 +586,9 @@ declare module "@prismicio/client" {
 
   namespace Content {
     export type {
+      DevotionalDocument,
+      DevotionalDocumentData,
+      DevotionalDocumentDataSlicesSlice,
       HomeDocument,
       HomeDocumentData,
       HomeDocumentDataSlicesSlice,
