@@ -99,7 +99,7 @@ interface BlogDocumentData {
 export type BlogDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithoutUID<Simplify<BlogDocumentData>, "blog", Lang>;
 
-type ContactDocumentDataSlicesSlice = TextSlice;
+type ContactDocumentDataSlicesSlice = ContactFormSlice | TextSlice;
 
 /**
  * Content for Contact documents
@@ -396,6 +396,51 @@ export type AllDocumentTypes =
   | NavigationDocument
   | PageDocument
   | VideosDocument;
+
+/**
+ * Primary content in *ContactForm → Default → Primary*
+ */
+export interface ContactFormSliceDefaultPrimary {
+  /**
+   * Success field in *ContactForm → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contact_form.default.primary.success
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  success: prismic.KeyTextField;
+}
+
+/**
+ * Default variation for ContactForm Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ContactFormSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<ContactFormSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *ContactForm*
+ */
+type ContactFormSliceVariation = ContactFormSliceDefault;
+
+/**
+ * ContactForm Shared Slice
+ *
+ * - **API ID**: `contact_form`
+ * - **Description**: ContactForm
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ContactFormSlice = prismic.SharedSlice<
+  "contact_form",
+  ContactFormSliceVariation
+>;
 
 /**
  * Item in *Dropdown → Default → Primary → sub_label*
@@ -708,6 +753,10 @@ declare module "@prismicio/client" {
       VideosDocumentData,
       VideosDocumentDataSlicesSlice,
       AllDocumentTypes,
+      ContactFormSlice,
+      ContactFormSliceDefaultPrimary,
+      ContactFormSliceVariation,
+      ContactFormSliceDefault,
       DropdownSlice,
       DropdownSliceDefaultPrimarySubLabelItem,
       DropdownSliceDefaultPrimary,
