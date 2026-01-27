@@ -37,17 +37,24 @@ export function NavigationList({ nav }: { nav: any }) {
                 {(nav?.data?.slices || []).map((slice: any, index: number) => {
                     const isVideosTop = slice.primary.link?.type === "videos";
                     const isDevotionalTop = slice.primary.link?.type === "devotional";
+                    const isBlogTop = slice.primary.link?.type === "blog";
+                    const isLinksTop = slice.primary.link?.type === "links";
+
                     const isLinkActive = slice.slice_type === "menu_link" &&
                         (
                             isVideosTop ? pathname === "/videos" :
                                 isDevotionalTop ? pathname === "/devotional" :
-                                    (pathname === `/${slice.primary.link.uid}` || (pathname === "/" && slice.primary.link.uid === "home"))
+                                    isBlogTop ? pathname === "/blog" :
+                                        isLinksTop ? pathname === "/links" :
+                                            (pathname === `/${slice.primary.link.uid}` || (pathname === "/" && slice.primary.link.uid === "home"))
                         );
 
                     const isDropdownActive = slice.slice_type === "dropdown" &&
                         slice.primary.sub_label?.some((item: any) => {
                             if (item.sub_link.type === "videos") return pathname === "/videos";
                             if (item.sub_link.type === "devotional") return pathname === "/devotional";
+                            if (item.sub_link.type === "blog") return pathname === "/blog";
+                            if (item.sub_link.type === "links") return pathname === "/links";
                             return pathname === `/${item.sub_link.uid}`;
                         });
 
@@ -91,7 +98,14 @@ export function NavigationList({ nav }: { nav: any }) {
                                         {subLinks.map((item: any, i: number) => {
                                             const isVideos = item.sub_link.type === "videos";
                                             const isDevotional = item.sub_link.type === "devotional";
-                                            const isActiveSub = isVideos ? pathname === "/videos" : isDevotional ? pathname === "/devotional" : (item.sub_link.uid && pathname === `/${item.sub_link.uid}`);
+                                            const isBlog = item.sub_link.type === "blog";
+                                            const isLinks = item.sub_link.type === "links";
+
+                                            const isActiveSub = isVideos ? pathname === "/videos" :
+                                                isDevotional ? pathname === "/devotional" :
+                                                    isBlog ? pathname === "/blog" :
+                                                        isLinks ? pathname === "/links" :
+                                                            (item.sub_link.uid && pathname === `/${item.sub_link.uid}`);
                                             const linkLabel = item.sub_link.text || item.sub_link.url || "Link";
 
                                             return (
@@ -141,11 +155,16 @@ export function NavigationList({ nav }: { nav: any }) {
                         {(nav?.data?.slices || []).map((slice: any, index: number) => {
                             const isVideosTop = slice.primary.link?.type === "videos";
                             const isDevotionalTop = slice.primary.link?.type === "devotional";
+                            const isBlogTop = slice.primary.link?.type === "blog";
+                            const isLinksTop = slice.primary.link?.type === "links";
+
                             const isLinkActive = slice.slice_type === "menu_link" &&
                                 (
                                     isVideosTop ? pathname === "/videos" :
                                         isDevotionalTop ? pathname === "/devotional" :
-                                            (pathname === `/${slice.primary.link.uid}` || (pathname === "/" && slice.primary.link.uid === "home"))
+                                            isBlogTop ? pathname === "/blog" :
+                                                isLinksTop ? pathname === "/links" :
+                                                    (pathname === `/${slice.primary.link.uid}` || (pathname === "/" && slice.primary.link.uid === "home"))
                                 );
 
                             if (slice.slice_type === "menu_link") {

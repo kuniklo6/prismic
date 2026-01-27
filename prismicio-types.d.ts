@@ -69,6 +69,36 @@ type ContentRelationshipFieldWithData<
   >;
 }[Exclude<TCustomType[number], string>["id"]];
 
+type BlogDocumentDataSlicesSlice = TextSlice;
+
+/**
+ * Content for Blog documents
+ */
+interface BlogDocumentData {
+  /**
+   * Slice Zone field in *Blog*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: blog.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/slices
+   */
+  slices: prismic.SliceZone<BlogDocumentDataSlicesSlice>;
+}
+
+/**
+ * Blog document from Prismic
+ *
+ * - **API ID**: `blog`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type BlogDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<Simplify<BlogDocumentData>, "blog", Lang>;
+
 type DevotionalDocumentDataSlicesSlice = TextSlice;
 
 /**
@@ -163,6 +193,36 @@ interface HomeDocumentData {
  */
 export type HomeDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<HomeDocumentData>, "home", Lang>;
+
+type LinksDocumentDataSlicesSlice = TextSlice;
+
+/**
+ * Content for Links documents
+ */
+interface LinksDocumentData {
+  /**
+   * Slice Zone field in *Links*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: links.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/slices
+   */
+  slices: prismic.SliceZone<LinksDocumentDataSlicesSlice>;
+}
+
+/**
+ * Links document from Prismic
+ *
+ * - **API ID**: `links`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type LinksDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<Simplify<LinksDocumentData>, "links", Lang>;
 
 type NavigationDocumentDataSlicesSlice = DropdownSlice | MenuLinkSlice;
 
@@ -294,8 +354,10 @@ export type VideosDocument<Lang extends string = string> =
   >;
 
 export type AllDocumentTypes =
+  | BlogDocument
   | DevotionalDocument
   | HomeDocument
+  | LinksDocument
   | NavigationDocument
   | PageDocument
   | VideosDocument;
@@ -586,12 +648,18 @@ declare module "@prismicio/client" {
 
   namespace Content {
     export type {
+      BlogDocument,
+      BlogDocumentData,
+      BlogDocumentDataSlicesSlice,
       DevotionalDocument,
       DevotionalDocumentData,
       DevotionalDocumentDataSlicesSlice,
       HomeDocument,
       HomeDocumentData,
       HomeDocumentDataSlicesSlice,
+      LinksDocument,
+      LinksDocumentData,
+      LinksDocumentDataSlicesSlice,
       NavigationDocument,
       NavigationDocumentData,
       NavigationDocumentDataSlicesSlice,
