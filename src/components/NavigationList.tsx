@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { PrismicNextLink } from "@prismicio/next";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export function NavigationList({ nav }: { nav: any }) {
@@ -226,9 +227,13 @@ export function NavigationList({ nav }: { nav: any }) {
 
                     {/* Mobile Contact Button */}
                     <div className="mt-8 border-t border-slate-100 pt-6">
-                        <button className="w-full rounded-full bg-slate-900 px-5 py-4 text-center text-base font-semibold text-white shadow-lg shadow-slate-200">
+                        <Link
+                            href="/contact"
+                            className="block w-full rounded-full bg-slate-900 px-5 py-4 text-center text-base font-semibold text-white shadow-lg shadow-slate-200"
+                            onClick={() => setMobileMenuOpen(false)}
+                        >
                             Contact Us
-                        </button>
+                        </Link>
                     </div>
                 </div>,
                 document.body

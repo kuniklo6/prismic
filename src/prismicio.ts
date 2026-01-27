@@ -44,6 +44,10 @@ const routes: prismic.ClientConfig["routes"] = [
     path: "/links",
   },
   {
+    type: "contact",
+    path: "/contact",
+  },
+  {
     type: "navigation",
     path: "/", // Navigation usually doesn't need a path, but listing it avoids errors
   },

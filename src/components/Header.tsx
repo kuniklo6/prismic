@@ -29,9 +29,12 @@ export default async function Header() {
 
                 {/* Optional: Simple CTA Button or Search icon could go here */}
                 <div className="hidden md:block">
-                    <button className="rounded-full bg-slate-900 px-5 py-2 text-sm font-medium text-white hover:bg-slate-800 transition-colors">
+                    <Link
+                        href="/contact"
+                        className="rounded-full bg-slate-900 px-5 py-2 text-sm font-medium text-white hover:bg-slate-800 transition-colors"
+                    >
                         Contact Us
-                    </button>
+                    </Link>
                 </div>
             </div>
         </header>
