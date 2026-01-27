@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { PrismicNextLink } from "@prismicio/next";
 import { usePathname } from "next/navigation";
 
@@ -9,6 +10,11 @@ export function NavigationList({ nav }: { nav: any }) {
     const [openDropdown, setOpenDropdown] = useState<string | null>(null);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [mobileDropdownOpen, setMobileDropdownOpen] = useState<string | null>(null);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     // Prevent scrolling when mobile menu is open
     useEffect(() => {
@@ -128,84 +134,86 @@ export function NavigationList({ nav }: { nav: any }) {
                 </button>
             </div>
 
-            {/* Mobile Menu Overlay */}
-            <div className={`fixed inset-0 z-40 bg-white/95 backdrop-blur-xl pt-24 px-6 transition-all duration-300 ease-in-out md:hidden ${mobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
-                }`}>
-                <ul className="flex flex-col gap-6">
-                    {(nav?.data?.slices || []).map((slice: any, index: number) => {
-                        const isVideosTop = slice.primary.link?.type === "videos";
-                        const isDevotionalTop = slice.primary.link?.type === "devotional";
-                        const isLinkActive = slice.slice_type === "menu_link" &&
-                            (
-                                isVideosTop ? pathname === "/videos" :
-                                    isDevotionalTop ? pathname === "/devotional" :
-                                        (pathname === `/${slice.primary.link.uid}` || (pathname === "/" && slice.primary.link.uid === "home"))
-                            );
+            {/* Mobile Menu Overlay - Portaled to Body */}
+            {mounted && mobileMenuOpen && createPortal(
+                <div className="fixed inset-0 z-40 bg-white/95 backdrop-blur-xl pt-24 px-6 transition-all duration-300 ease-in-out md:hidden flex flex-col">
+                    <ul className="flex flex-col gap-6">
+                        {(nav?.data?.slices || []).map((slice: any, index: number) => {
+                            const isVideosTop = slice.primary.link?.type === "videos";
+                            const isDevotionalTop = slice.primary.link?.type === "devotional";
+                            const isLinkActive = slice.slice_type === "menu_link" &&
+                                (
+                                    isVideosTop ? pathname === "/videos" :
+                                        isDevotionalTop ? pathname === "/devotional" :
+                                            (pathname === `/${slice.primary.link.uid}` || (pathname === "/" && slice.primary.link.uid === "home"))
+                                );
 
-                        if (slice.slice_type === "menu_link") {
-                            return (
-                                <li key={index} className="border-b border-slate-100 pb-4 last:border-0 last:pb-0">
-                                    <PrismicNextLink
-                                        field={slice.primary.link}
-                                        className={`text-lg font-medium transition-colors block ${isLinkActive ? "text-blue-600" : "text-slate-800"
-                                            }`}
-                                        onClick={() => setMobileMenuOpen(false)}
-                                    >
-                                        {slice.primary.label}
-                                    </PrismicNextLink>
-                                </li>
-                            );
-                        }
+                            if (slice.slice_type === "menu_link") {
+                                return (
+                                    <li key={index} className="border-b border-slate-100 pb-4 last:border-0 last:pb-0">
+                                        <PrismicNextLink
+                                            field={slice.primary.link}
+                                            className={`text-lg font-medium transition-colors block ${isLinkActive ? "text-blue-600" : "text-slate-800"
+                                                }`}
+                                            onClick={() => setMobileMenuOpen(false)}
+                                        >
+                                            {slice.primary.label}
+                                        </PrismicNextLink>
+                                    </li>
+                                );
+                            }
 
-                        if (slice.slice_type === "dropdown") {
-                            const parentLabel = slice.primary.label;
-                            const subLinks = slice.primary.sub_label || [];
-                            const isOpen = mobileDropdownOpen === parentLabel;
+                            if (slice.slice_type === "dropdown") {
+                                const parentLabel = slice.primary.label;
+                                const subLinks = slice.primary.sub_label || [];
+                                const isOpen = mobileDropdownOpen === parentLabel;
 
-                            return (
-                                <li key={index} className="border-b border-slate-100 pb-4 last:border-0 last:pb-0">
-                                    <button
-                                        onClick={() => setMobileDropdownOpen(isOpen ? null : parentLabel)}
-                                        className="flex items-center justify-between w-full text-lg font-medium text-slate-800"
-                                    >
-                                        {parentLabel}
-                                        <svg className={`w-5 h-5 text-slate-400 transition-transform ${isOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                    </button>
+                                return (
+                                    <li key={index} className="border-b border-slate-100 pb-4 last:border-0 last:pb-0">
+                                        <button
+                                            onClick={() => setMobileDropdownOpen(isOpen ? null : parentLabel)}
+                                            className="flex items-center justify-between w-full text-lg font-medium text-slate-800"
+                                        >
+                                            {parentLabel}
+                                            <svg className={`w-5 h-5 text-slate-400 transition-transform ${isOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                                            </svg>
+                                        </button>
 
-                                    <div className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-96 opacity-100 mt-4" : "max-h-0 opacity-0 mt-0"}`}>
-                                        <ul className="flex flex-col gap-3 pl-4 border-l-2 border-slate-100 ml-1">
-                                            {subLinks.map((item: any, i: number) => {
-                                                const linkLabel = item.sub_link.text || item.sub_link.url || "Link";
-                                                return (
-                                                    <li key={i}>
-                                                        <PrismicNextLink
-                                                            field={item.sub_link}
-                                                            className="block text-base text-slate-600 hover:text-blue-600"
-                                                            onClick={() => setMobileMenuOpen(false)}
-                                                        >
-                                                            {linkLabel}
-                                                        </PrismicNextLink>
-                                                    </li>
-                                                );
-                                            })}
-                                        </ul>
-                                    </div>
-                                </li>
-                            );
-                        }
-                        return null;
-                    })}
-                </ul>
+                                        <div className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-96 opacity-100 mt-4" : "max-h-0 opacity-0 mt-0"}`}>
+                                            <ul className="flex flex-col gap-3 pl-4 border-l-2 border-slate-100 ml-1">
+                                                {subLinks.map((item: any, i: number) => {
+                                                    const linkLabel = item.sub_link.text || item.sub_link.url || "Link";
+                                                    return (
+                                                        <li key={i}>
+                                                            <PrismicNextLink
+                                                                field={item.sub_link}
+                                                                className="block text-base text-slate-600 hover:text-blue-600"
+                                                                onClick={() => setMobileMenuOpen(false)}
+                                                            >
+                                                                {linkLabel}
+                                                            </PrismicNextLink>
+                                                        </li>
+                                                    );
+                                                })}
+                                            </ul>
+                                        </div>
+                                    </li>
+                                );
+                            }
+                            return null;
+                        })}
+                    </ul>
 
-                {/* Mobile Contact Button */}
-                <div className="mt-8 border-t border-slate-100 pt-6">
-                    <button className="w-full rounded-full bg-slate-900 px-5 py-4 text-center text-base font-semibold text-white shadow-lg shadow-slate-200">
-                        Contact Us
-                    </button>
-                </div>
-            </div>
+                    {/* Mobile Contact Button */}
+                    <div className="mt-8 border-t border-slate-100 pt-6">
+                        <button className="w-full rounded-full bg-slate-900 px-5 py-4 text-center text-base font-semibold text-white shadow-lg shadow-slate-200">
+                            Contact Us
+                        </button>
+                    </div>
+                </div>,
+                document.body
+            )}
         </nav>
     );
 }
