@@ -35,18 +35,12 @@ export async function submitContactForm(prevState: any, formData: FormData) {
             // Replace this with your email address to receive notifications
             // Once you verify a domain in Resend, you can change the 'from' address too.
             to: ["delivered@resend.dev"],
-            replyTo: email,
+            reply_to: email,
             subject: `New Contact from ${name}`,
             text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
         });
 
-        if (data.error) {
-            console.error("Resend Error:", data.error);
-            return {
-                success: false,
-                message: "Something went wrong. Please try again.",
-            };
-        }
+
 
         return {
             success: true,
