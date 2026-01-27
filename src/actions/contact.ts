@@ -34,7 +34,7 @@ export async function submitContactForm(prevState: any, formData: FormData) {
             from: "Contact Form <onboarding@resend.dev>",
             // Replace this with your email address to receive notifications
             // Once you verify a domain in Resend, you can change the 'from' address too.
-            to: ["delivered@resend.dev"],
+            to: ["kuniklo.vt@gmail.com"],
             reply_to: email,
             subject: `New Contact from ${name}`,
             text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
