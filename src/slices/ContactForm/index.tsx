@@ -36,7 +36,7 @@ const ContactForm: FC<ContactFormProps> = ({ slice }) => {
             <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl text-black">
               Get in Touch
             </h2>
-            <p className="mt-4 text-lg text-slate-600">
+            <p className="mt-4 text-base text-slate-600">
               We'd love to hear from you. Send us a message and we'll get back to you shortly.
             </p>
           </div>

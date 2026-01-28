@@ -64,7 +64,7 @@ export function NavigationList({ nav }: { nav: any }) {
                             <li key={index}>
                                 <PrismicNextLink
                                     field={slice.primary.link}
-                                    className={`text-sm font-medium transition-colors ${isLinkActive ? "text-blue-600 underline underline-offset-4" : "text-slate-600 hover:text-blue-600"
+                                    className={`text-base font-medium transition-colors ${isLinkActive ? "text-blue-600 underline underline-offset-4" : "text-slate-600 hover:text-blue-600"
                                         }`}
                                 >
                                     {slice.primary.label}
@@ -84,7 +84,7 @@ export function NavigationList({ nav }: { nav: any }) {
                                 onMouseEnter={() => setOpenDropdown(parentLabel)}
                                 onMouseLeave={() => setOpenDropdown(null)}
                             >
-                                <button className={`flex items-center gap-1 text-sm font-medium transition-colors focus:outline-none ${isDropdownActive ? "text-blue-600" : "text-slate-600 hover:text-blue-600"
+                                <button className={`flex items-center gap-1 text-base font-medium transition-colors focus:outline-none ${isDropdownActive ? "text-blue-600" : "text-slate-600 hover:text-blue-600"
                                     }`}>
                                     {parentLabel}
                                     <svg className={`w-4 h-4 transition-transform ${openDropdown === parentLabel ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
