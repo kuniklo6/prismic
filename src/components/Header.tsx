@@ -20,7 +20,7 @@ export default async function Header() {
                     className="text-xl font-bold tracking-tight text-slate-900 hover:text-blue-600 transition-colors"
                 >
                     {/* You could eventually replace this with nav.data.site_name from Prismic */}
-                    Bahá’í's of Sligo
+                    Bahá’ís of Sligo
                 </Link>
 
                 {/* Desktop Navigation List (Client Component) */}
