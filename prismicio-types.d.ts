@@ -6,10 +6,10 @@ type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
 type PickContentRelationshipFieldData<
   TRelationship extends
-    | prismic.CustomTypeModelFetchCustomTypeLevel1
-    | prismic.CustomTypeModelFetchCustomTypeLevel2
-    | prismic.CustomTypeModelFetchGroupLevel1
-    | prismic.CustomTypeModelFetchGroupLevel2,
+  | prismic.CustomTypeModelFetchCustomTypeLevel1
+  | prismic.CustomTypeModelFetchCustomTypeLevel2
+  | prismic.CustomTypeModelFetchGroupLevel1
+  | prismic.CustomTypeModelFetchGroupLevel2,
   TData extends Record<
     string,
     | prismic.AnyRegularField
@@ -37,10 +37,10 @@ type PickContentRelationshipFieldData<
     > as TGroup["id"]]: TData[TGroup["id"]] extends prismic.GroupField<
       infer TGroupData
     >
-      ? prismic.GroupField<
-          PickContentRelationshipFieldData<TGroup, TGroupData, TLang>
-        >
-      : never;
+    ? prismic.GroupField<
+      PickContentRelationshipFieldData<TGroup, TGroupData, TLang>
+    >
+    : never;
   } & // Other fields
   {
     [TFieldKey in Extract<
@@ -51,8 +51,8 @@ type PickContentRelationshipFieldData<
 
 type ContentRelationshipFieldWithData<
   TCustomType extends
-    | readonly (prismic.CustomTypeModelFetchCustomTypeLevel1 | string)[]
-    | readonly (prismic.CustomTypeModelFetchCustomTypeLevel2 | string)[],
+  | readonly (prismic.CustomTypeModelFetchCustomTypeLevel1 | string)[]
+  | readonly (prismic.CustomTypeModelFetchCustomTypeLevel2 | string)[],
   TLang extends string = string,
 > = {
   [ID in Exclude<
@@ -68,6 +68,73 @@ type ContentRelationshipFieldWithData<
     >
   >;
 }[Exclude<TCustomType[number], string>["id"]];
+
+type BlogPostDocumentDataSlicesSlice = TextSlice;
+
+/**
+ * Content for Blog Post documents
+ */
+interface BlogPostDocumentData {
+  /**
+   * Title field in *Blog Post*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: Blog Post Title
+   * - **API ID Path**: blog_post.title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/title
+   */
+  title: prismic.RichTextField;
+
+  /**
+   * Publication Date field in *Blog Post*
+   *
+   * - **Field Type**: Date
+   * - **Placeholder**: Select Date
+   * - **API ID Path**: blog_post.date
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/date
+   */
+  date: prismic.DateField;
+
+  /**
+   * Featured Image field in *Blog Post*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: blog_post.featured_image
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  featured_image: prismic.ImageField<never>;
+
+  /**
+   * Slice Zone field in *Blog Post*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: blog_post.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/slices
+   */
+  slices: prismic.SliceZone<BlogPostDocumentDataSlicesSlice>;
+}
+
+/**
+ * Blog Post document from Prismic
+ *
+ * - **API ID**: `blog_post`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type BlogPostDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<
+    Simplify<BlogPostDocumentData>,
+    "blog_post",
+    Lang
+  >;
 
 type BlogDocumentDataSlicesSlice = TextSlice;
 
@@ -389,6 +456,7 @@ export type VideosDocument<Lang extends string = string> =
 
 export type AllDocumentTypes =
   | BlogDocument
+  | BlogPostDocument
   | ContactDocument
   | DevotionalDocument
   | HomeDocument
@@ -731,6 +799,9 @@ declare module "@prismicio/client" {
       BlogDocument,
       BlogDocumentData,
       BlogDocumentDataSlicesSlice,
+      BlogPostDocument,
+      BlogPostDocumentData,
+      BlogPostDocumentDataSlicesSlice,
       ContactDocument,
       ContactDocumentData,
       ContactDocumentDataSlicesSlice,
